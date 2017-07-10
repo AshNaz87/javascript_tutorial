@@ -162,6 +162,61 @@ function runChallenges() {
   $('label').remove();
 
 
+function hasNewMessage() {
+  // TODO: return true with a probability of 20%.
+  var probability = Math.random();
+  if (probability <= 0.2) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function randomSample(array) {
+  return array[Math.round(Math.random() * array.length)];
+}
+
+function newMessage() {
+  var senders = [ 'GitHub', 'YouTube', 'Google', 'Instagram' ];
+  var subjects = [ 'You Got Mail!', 'Check it out!', 'You won\'t believe it...', 'Look at these pics!' ];
+
+  return {
+    sender: randomSample(senders),
+    subject: randomSample(subjects)
+  };
+}
+
+function appendMessageToDom(message) {
+  // TODO: append the given message to the DOM (as a new row of `#inbox`)
+   var line = '<div class="row message unread"><div class="col-xs-3">'
+   + message['senders']
+   + '</div><div class="col-xs-9>'
+   + message['subjects']
+   + '</div>';
+   $('#inbox').prepend(line);
+}
+
+function updateUnreadCount() {
+  var unreadCount = $('.message.unread').length;
+  $('#count').text('(' + unreadCount + ')');
+  document.title = '(' + unreadCount + ') Fake Inbox';
+}
+
+function refresh() {
+  // TODO: Implement the global refresh logic. If there is a new message,
+  //       append it to the DOM. Update the unread counter in title as well.
+  if (hasNewMessage()) {
+    appendMessageToDom(newMessage());
+    updateUnreadCount();
+  }
+}
+
+
+$(document).ready(function () {
+  setInterval(refresh, 1000); // Every 1 second, the `refresh` function is called.
+});
+
+
 
 
 
